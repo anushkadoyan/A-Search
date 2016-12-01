@@ -36,7 +36,7 @@ xyLoc GridPathPlanner::GetNextMove(PartiallyKnownGrid* grid) {
 	// TODO
 	// This is just a dummy implementation that returns a random neighbor.
     PathNode currentNode;
-    open.push_back(currentNode);
+    closed.push_back(currentNode);
 	xyLoc curr = grid->GetCurrentLocation();
 	vector<xyLoc> neighbors;
 	neighbors.push_back(xyLoc(curr.x+1, curr.y));
@@ -57,11 +57,20 @@ xyLoc GridPathPlanner::GetNextMove(PartiallyKnownGrid* grid) {
 		}
 	}
     for (int i = 0; i < currentNode.adjacent.size(); i++) {
-        if(contains("open", currentNode.adjacent[i])) {
-               /* v contains x */
-        } else {
-               /* v does not contain x */
+        if (currentNode.adjacent[i].position == grid->GetGoalLocation()) {
+            return currentNode.adjacent[i].position;
         }
+        if (contains("closed", currentNode.adjacent[i])){
+            continue;
+            /* v does not contain x */
+        }
+        else if(contains("open", currentNode.adjacent[i])) {
+               /* v contains x */
+        }
+        else {
+            
+        }
+        
     }
 
 
