@@ -8,6 +8,8 @@ class GridPathPlanner{
 public:
     struct PathNode {
         xyLoc position;
+        xyLoc parent;
+
         vector<PathNode> adjacent;
         float f = 0.0f;
         float g = 0.0f;
@@ -17,10 +19,11 @@ public:
 	~GridPathPlanner();
 
 	xyLoc GetNextMove(PartiallyKnownGrid* grid);
-    bool contains(string vect, PathNode node);
-    float heuristic(xyLoc curr,xyLoc goal);
+    bool contains(vector<PathNode>  vect, PathNode node);
+    float heuristic(xyLoc loc1,xyLoc loc2);
     int GetNumExpansions();
-
+    PathNode squareWithLowestFScore(vector<PathNode> open);
+    void removeFromOpen(vector<PathNode>  vect, PathNode node);
 private:
 
 };
