@@ -1,5 +1,6 @@
 #include "GridPathPlanner.h"
 #include <iostream>
+#include <cmath>        // std::abs
 
 using namespace std;
 
@@ -32,6 +33,10 @@ bool GridPathPlanner::contains(string vect, PathNode node)
         return false;
     }
 }
+float GridPathPlanner::heuristic(xyLoc curr,xyLoc goal) {
+    return abs(curr.x - goal.x)+abs(curr.y - goal.y);
+}
+
 xyLoc GridPathPlanner::GetNextMove(PartiallyKnownGrid* grid) {
 	// TODO
 	// This is just a dummy implementation that returns a random neighbor.
@@ -50,6 +55,11 @@ xyLoc GridPathPlanner::GetNextMove(PartiallyKnownGrid* grid) {
 			neighbors[i] = neighbors.back();
             PathNode neigh;
             neigh.position = neighbors[i];
+            
+            //|l1.x − l2.x| + |l1.y − l2.y|
+            
+            neigh.h = heuristic(neigh.position, grid->GetGoalLocation());
+            
             currentNode.adjacent.push_back(neigh);
 //            open.push_back(neigh)
 			neighbors.pop_back();
@@ -62,7 +72,6 @@ xyLoc GridPathPlanner::GetNextMove(PartiallyKnownGrid* grid) {
         }
         if (contains("closed", currentNode.adjacent[i])){
             continue;
-            /* v does not contain x */
         }
         else if(contains("open", currentNode.adjacent[i])) {
                /* v contains x */

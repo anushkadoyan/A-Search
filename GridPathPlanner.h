@@ -18,8 +18,8 @@ public:
 
 	xyLoc GetNextMove(PartiallyKnownGrid* grid);
     bool contains(string vect, PathNode node);
-
-	int GetNumExpansions();
+    float heuristic(xyLoc curr,xyLoc goal);
+    int GetNumExpansions();
 
 private:
 
